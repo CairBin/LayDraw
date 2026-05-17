@@ -1,0 +1,8 @@
+id = "example.package_plugin"
+title = "Package Plugin"
+
+# Supported forms checked by laydraw_app/build.rs:
+# support = "0.1.0"              # exact version
+# support = "<=0.1.0"            # maximum supported version
+# support = ">=0.1.0, <0.2.0"    # range
+support = ">=0.1.0, <0.2.0"

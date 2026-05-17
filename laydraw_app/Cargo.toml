@@ -1,0 +1,13 @@
+[package]
+name = "laydraw-app"
+version = "0.1.0"
+edition = "2024"
+publish = false
+build = "build.rs"
+
+[dependencies]
+eframe = "0.28"
+laydraw = { path = ".." }
+laydraw-example-package-plugin = { path = "../plugin_packages/example_package_plugin" }
+
+[build-dependencies]

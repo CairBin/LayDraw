@@ -1,0 +1,10 @@
+[package]
+name = "laydraw-example-package-plugin"
+version = "0.1.0"
+edition = "2024"
+publish = false
+
+[dependencies]
+egui = "0.28"
+laydraw = { path = "../.." }
+once_cell = "1"
