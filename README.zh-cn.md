@@ -415,3 +415,52 @@ context.command(AppCommand::MarkCanvasDirty);
 
 运行时组件/设置状态保存到`laydraw_components.cfg`
 Git 忽略，仅本地用户状态。
+
+## 关于字体
+
+字体建议使用`Noto Sans CJK`。项目会自动扫描系统字体目录并尝试加载可用的字体文件。因此您可以将字体文件放到系统目录或者`./assert/font/`下。关于字体偏好，它是由`./src/ui/mod.rs`中的`preferred_cjk_font`函数和`preferred_ui_font`函数决定的
+
+```rust
+fn preferred_cjk_font(family: &str) -> bool {
+    let name = family.to_lowercase();
+    [
+        "microsoft yahei",
+        "yahei",
+        "simsun",
+        "simhei",
+        "simkai",
+        "simfang",
+        "dengxian",
+        "noto sans sc",
+        "noto serif sc",
+        "pingfang",
+        "hiragino",
+        "noto sans cjk",
+        "noto serif cjk",
+        "source han",
+        "wenquanyi",
+        "sarasa",
+    ]
+    .iter()
+    .any(|candidate| name.contains(candidate))
+}
+```
+
+
+```rust
+fn preferred_ui_font(family: &str) -> bool {
+    let name = family.to_lowercase();
+    [
+        "segoe ui",
+        "san francisco",
+        "apple system",
+        "dejavu sans",
+        "arial",
+        "liberation sans",
+    ]
+    .iter()
+    .any(|candidate| name.contains(candidate))
+}
+```
+
+在`TextRenderer::scan()`中先用`preferred_cjk_font`查找首选 CJK 字体，找不到再用 `preferred_ui_font` 查找 UI 字体，最后才用第一个扫描到的字体。

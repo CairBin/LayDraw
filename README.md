@@ -537,3 +537,52 @@ For UI-heavy changes, manually verify:
 - Select/text/shape active boxes commit correctly when focus changes.
 - Plugin component toggles remove and restore UI safely.
 - Clipboard paste works for internal selection, copied bitmap, and copied image file.
+
+## About Font
+
+The recommended font is `Noto Sans CJK`. The project will automatically scan the system font directory and attempt to load available font files. Therefore, you can place the font file in the system directory or under `./assert/font/`. Regarding font preference, it is determined by the `preferred_cjk_font` and `preferred_ui_font` functions in `./src/ui/mod. rs`.
+
+```rust
+fn preferred_cjk_font(family: &str) -> bool {
+    let name = family.to_lowercase();
+    [
+        "microsoft yahei",
+        "yahei",
+        "simsun",
+        "simhei",
+        "simkai",
+        "simfang",
+        "dengxian",
+        "noto sans sc",
+        "noto serif sc",
+        "pingfang",
+        "hiragino",
+        "noto sans cjk",
+        "noto serif cjk",
+        "source han",
+        "wenquanyi",
+        "sarasa",
+    ]
+    .iter()
+    .any(|candidate| name.contains(candidate))
+}
+```
+
+
+```rust
+fn preferred_ui_font(family: &str) -> bool {
+    let name = family.to_lowercase();
+    [
+        "segoe ui",
+        "san francisco",
+        "apple system",
+        "dejavu sans",
+        "arial",
+        "liberation sans",
+    ]
+    .iter()
+    .any(|candidate| name.contains(candidate))
+}
+```
+
+In `TextRenderer::scan()`, first use `preferred_cjk_font` to search for the preferred CJK font. If it cannot be found, then use `preferred_ui_font` to search for the UI font, and finally use the first scanned font.

@@ -50,7 +50,7 @@ use crate::{
 };
 
 const RULER_SIZE: f32 = 24.0;
-const RIBBON_HEIGHT: f32 = 124.0;
+const RIBBON_HEIGHT: f32 = 148.0;
 const CANVAS_RESIZE_HIT: f32 = 18.0;
 const CANVAS_RESIZE_MARGIN: f32 = 26.0;
 const LAYER_ROW_HEIGHT: f32 = 92.0;
@@ -225,6 +225,9 @@ impl TextRenderer {
             .or_else(|| fonts.first())
             .map(|font| font.family.clone())
             .unwrap_or_else(|| "Proportional".to_owned());
+
+            // eprintln!("Loaded fonts: {:?}", fonts.iter().map(|f| &f.family).collect::<Vec<_>>());
+            // eprintln!("Selected default font: {}", default_family);
 
         Self {
             fonts,
@@ -6654,6 +6657,7 @@ impl eframe::App for PaintApp {
 
 fn system_font_dirs() -> Vec<PathBuf> {
     let mut dirs = Vec::new();
+    dirs.push(PathBuf::from("./assert/font"));
     if cfg!(target_os = "windows") {
         dirs.push(PathBuf::from("C:/Windows/Fonts"));
         if let Some(local_app_data) = env::var_os("LOCALAPPDATA") {
